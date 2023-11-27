@@ -1,5 +1,48 @@
+import java.io.*;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        String FileName = "";
+        int countWord = 0;
+        int countLines = 0;
+        int characterCount = 0;
+
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+        int returnValue = jfc.showOpenDialog(null);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = jfc.getSelectedFile();
+            System.out.println(selectedFile.getAbsolutePath());
+            FileName=selectedFile.getName();
+            String s = selectedFile.getAbsolutePath();
+            System.out.println(s);
+            try
+            {
+                File file = new File(s);
+                FileReader fr = new FileReader(file);
+                BufferedReader br = new BufferedReader(fr);
+                String line;
+                while((line = br.readLine()) != null)
+                {
+                    countLines+=1;
+                    String[] arr=line.split(" ");
+                    countWord=countWord+arr.length;
+                    characterCount=characterCount+line.length();
+                }
+                fr.close();
+            }
+            catch(IOException e)
+            {
+                e.printStackTrace();
+            }
+
+        }
+
+        System.out.println("File name is: " + FileName);
+        System.out.println("Number of lines is: " + countLines);
+        System.out.println("Word count is: " + countWord);
+        System.out.println("Total characters is: " + characterCount);
     }
 }
